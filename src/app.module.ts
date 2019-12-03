@@ -1,17 +1,28 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UsersModule } from './modules/users/users.module';
 import { AccountsModule } from './modules/accounts/accounts.module';
-import { AccountsController } from './modules/accounts/accounts.controller';
+import { UsersModule } from './modules/users/users.module';
+import { I18nModule, QueryResolver, HeaderResolver } from 'nestjs-i18n';
+import * as path from 'path';
 
 @Module({
   imports: [
     MongooseModule.forRoot(`mongodb://${process.env.DB_HOST}/${process.env.DB_NAME}`,
       { useNewUrlParser: true, useUnifiedTopology: true }
     ),
+    I18nModule.forRoot({
+      path: path.join(__dirname, '/src/config/localization'),
+      filePattern: '*.json',
+      fallbackLanguage: 'en',
+      resolvers: [
+        new QueryResolver(['lang', 'locale', 'l']),
+        new HeaderResolver()
+      ]
+    }),
     UsersModule,
-    AccountsModule
-  ]
+    AccountsModule,
+  ],
+  exports: [UsersModule, AccountsModule]
 })
 export class AppModule {
   // export class AppModule implements NestModule {
