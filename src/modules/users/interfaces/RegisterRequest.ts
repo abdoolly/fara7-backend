@@ -1,9 +1,10 @@
-import { IsNotEmpty, MinLength } from "class-validator";
 import { ApiModelProperty } from "@nestjs/swagger";
-import { IsUserAlreadyExist } from "../../../helpers/validators/Unique";
+import { IsNotEmpty, MinLength } from "class-validator";
 import { IsPasswordConfirmed } from "../../../helpers/validators/ConfirmPassword";
+import { IsUserAlreadyExist } from "../../../helpers/validators/Unique";
 
 //TODO: localization
+
 export class RegisterRequest {
     @ApiModelProperty()
     @IsNotEmpty()

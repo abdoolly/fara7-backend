@@ -1,13 +1,14 @@
-import { Module, forwardRef } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ConfirmPassword } from '../../helpers/validators/ConfirmPassword';
 import { UserAlreadyExists } from '../../helpers/validators/Unique';
+import { AccountsModule } from '../accounts/accounts.module';
 import { AuthController } from './auth.controller';
 import { AuthGuard } from './guards/AuthGuard';
 import { UserSchema } from './schemas/User';
 import { UsersController } from './users.controller';
-import { AccountsModule } from '../accounts/accounts.module';
 
 @Module({
     imports: [
@@ -17,10 +18,11 @@ import { AccountsModule } from '../accounts/accounts.module';
         MongooseModule.forFeature([
             { name: 'User', schema: UserSchema }
         ]),
-        forwardRef(() => AccountsModule)
+        forwardRef(() => AccountsModule),
     ],
     providers: [
         UserAlreadyExists,
+        ConfirmPassword,
         { provide: APP_GUARD, useClass: AuthGuard },
     ],
     controllers: [UsersController, AuthController],
