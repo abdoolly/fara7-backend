@@ -2,7 +2,7 @@ import { registerDecorator, ValidationOptions, ValidatorConstraint, ValidatorCon
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { User } from "../../users/interfaces/Schemas.interface";
+import { User } from "../../modules/users/interfaces/Schemas.interface";
 
 async function unique(model: Model<any>, property: string, value: any) {
     if (await model.findOne({ [property]: value }))

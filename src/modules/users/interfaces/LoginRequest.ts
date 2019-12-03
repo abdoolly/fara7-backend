@@ -1,6 +1,7 @@
 import { IsNotEmpty, IsString, ValidationArguments } from 'class-validator';
 import { ApiModelProperty } from '@nestjs/swagger';
 
+//TODO: localization
 export class LoginRequest {
     @ApiModelProperty({ example: 'abdoolly' })
     @IsString()

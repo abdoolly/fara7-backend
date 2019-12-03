@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { Model } from 'mongoose';
-import { Public } from '../helpers/decorators/Public';
+import { Public } from '../../helpers/decorators/Public';
 import { LoginRequest } from './interfaces/LoginRequest';
 import { RegisterRequest } from './interfaces/RegisterRequest';
 import { User } from './interfaces/Schemas.interface';

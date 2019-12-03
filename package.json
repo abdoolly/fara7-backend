@@ -20,7 +20,8 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "start-db": "docker-compose -f dependencies/docker-compose.yaml up -d",
     "make:module": "nest g module",
-    "make:controller": "nest g controller"
+    "make:controller": "nest g controller",
+    "make:service": "nest g service"
   },
   "dependencies": {
     "@nestjs/common": "^6.7.2",
