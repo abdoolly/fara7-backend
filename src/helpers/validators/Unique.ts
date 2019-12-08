@@ -3,6 +3,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import { registerDecorator, ValidationArguments, ValidationOptions, ValidatorConstraint, ValidatorConstraintInterface } from "class-validator";
 import { Model } from "mongoose";
 import { User } from "../../modules/users/interfaces/Schemas.interface";
+import { Models } from "../Models";
 
 async function unique(model: Model<any>, property: string, value: any) {
     if (await model.findOne({ [property]: value }))
@@ -15,7 +16,7 @@ async function unique(model: Model<any>, property: string, value: any) {
 @Injectable()
 export class UserAlreadyExists implements ValidatorConstraintInterface {
 
-    constructor(@InjectModel('User') public userModel: Model<User>) { }
+    constructor(@InjectModel(Models.User) public userModel: Model<User>) { }
 
     async validate(value: any, args: ValidationArguments) {
         return await unique(this.userModel, 'username', value);

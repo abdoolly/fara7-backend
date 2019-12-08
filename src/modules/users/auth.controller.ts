@@ -3,34 +3,28 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { Model } from 'mongoose';
+import { I18n, I18nService } from 'nestjs-i18n';
 import { Public } from '../../helpers/decorators/Public';
 import { LoginRequest } from './interfaces/LoginRequest';
 import { RegisterRequest } from './interfaces/RegisterRequest';
 import { User } from './interfaces/Schemas.interface';
-import { AccountsService } from '../accounts/accounts.service';
-import { ObjectId } from 'mongodb';
-import { I18nLang } from 'nestjs-i18n';
+import { Models } from '../../helpers/Models';
 
 @Controller('/auth')
 export class AuthController {
 
     constructor(
-        @InjectModel('User') private readonly UserModel: Model<User>,
+        @InjectModel(Models.User) private readonly UserModel: Model<User>,
         private readonly jwtService: JwtService,
-        private readonly accountService: AccountsService
     ) { }
 
     @Public()
     @Post('/register')
-    async register(@Body() data: RegisterRequest) {
+    async register(@Body() data: RegisterRequest, @I18n() i18n: I18nService) {
         let user = await this.UserModel.create(data);
 
-        // initiating the user account data
-        this.accountService.initiateAccount(new ObjectId(user._id));
-
-        // TODO: localization
         return {
-            message: 'Registered Successfully',
+            message: i18n.translate('messages.success.register'),
             token: await this.jwtService.signAsync(user.toJSON()),
             user: {
                 username: user.username,
@@ -42,15 +36,14 @@ export class AuthController {
     @Public()
     @Post('/login')
     @ApiOkResponse({ description: 'Successful login' })
-    async login(@Body() { username, password }: LoginRequest): Promise<any> {
+    async login(@Body() { username, password }: LoginRequest, @I18n() i18n: I18nService): Promise<any> {
         let user = await this.UserModel.findOne({ username, password });
 
         if (!user)
-            throw new UnauthorizedException('Wrong username or password');
+            throw new UnauthorizedException(i18n.translate('messages.wrong_creds'));
 
         return {
-            // TODO: localization
-            message: 'logged in successfully',
+            message: i18n.translate('messages.success.login'),
             token: await this.jwtService.signAsync(user.toJSON()),
             user: {
                 username: user.username,

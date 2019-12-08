@@ -7,21 +7,21 @@ import { IsUserAlreadyExist } from "../../../helpers/validators/Unique";
 
 export class RegisterRequest {
     @ApiModelProperty()
-    @IsNotEmpty()
-    @IsUserAlreadyExist()
+    @IsNotEmpty({ message: 'messages.no_username' })
+    @IsUserAlreadyExist({ message: 'messages.user_exists' })
     username: string;
 
     @ApiModelProperty()
-    @IsNotEmpty()
+    @IsNotEmpty({ message: 'messages.no_name' })
     name: string;
 
     @ApiModelProperty()
-    @IsNotEmpty()
-    @MinLength(3)
+    @IsNotEmpty({ message: 'messages.no_password' })
+    @MinLength(3, { message: 'messages.password_min' })
     password: string;
 
     @ApiModelProperty()
-    @IsNotEmpty()
-    @IsPasswordConfirmed()
+    @IsNotEmpty({ message: 'messages.confirm_password' })
+    @IsPasswordConfirmed({ message: 'messages.not_confirmed' })
     confirm_password: string;
 }

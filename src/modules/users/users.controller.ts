@@ -3,12 +3,13 @@ import { InjectModel } from '@nestjs/mongoose';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { Model } from 'mongoose';
 import { User } from './interfaces/Schemas.interface';
+import { Models } from '../../helpers/Models';
 
 @ApiBearerAuth()
 @Controller('/')
 export class UsersController {
 
-    constructor(@InjectModel('User') private readonly UserModel: Model<User>) { }
+    constructor(@InjectModel(Models.User) private readonly UserModel: Model<User>) { }
 
     @Get('/list/users')
     async listUsers() {

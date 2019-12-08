@@ -9,6 +9,7 @@ import { AuthController } from './auth.controller';
 import { AuthGuard } from './guards/AuthGuard';
 import { UserSchema } from './schemas/User';
 import { UsersController } from './users.controller';
+import { Models } from '../../helpers/Models';
 
 @Module({
     imports: [
@@ -16,7 +17,7 @@ import { UsersController } from './users.controller';
             secret: process.env.JWT_SECRET,
         }),
         MongooseModule.forFeature([
-            { name: 'User', schema: UserSchema }
+            { name: Models.User, schema: UserSchema }
         ]),
         forwardRef(() => AccountsModule),
     ],
@@ -28,7 +29,7 @@ import { UsersController } from './users.controller';
     controllers: [UsersController, AuthController],
     exports: [
         MongooseModule.forFeature([
-            { name: 'User', schema: UserSchema }
+            { name: Models.User, schema: UserSchema }
         ])
     ]
 })

@@ -4,16 +4,19 @@ import { HeaderResolver, I18nModule, QueryResolver } from 'nestjs-i18n';
 import * as path from 'path';
 import { AccountsModule } from './modules/accounts/accounts.module';
 import { UsersModule } from './modules/users/users.module';
+import { APP_FILTER } from '@nestjs/core';
+import { BadRequestExceptionFilter } from './Exceptions/bad-request-exc.filter';
 
 @Module({
   imports: [
     MongooseModule.forRoot(`mongodb://${process.env.DB_HOST}/${process.env.DB_NAME}`,
-      { useNewUrlParser: true, useUnifiedTopology: true }
+      { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }
     ),
     I18nModule.forRoot({
-      path: path.join(__dirname, '/src/config/localization'),
+      path: path.join(__dirname, 'config/localization'),
       filePattern: '*.json',
       fallbackLanguage: 'en',
+      saveMissing: false,
       resolvers: [
         new QueryResolver(['lang', 'locale', 'l']),
         new HeaderResolver()
@@ -21,6 +24,9 @@ import { UsersModule } from './modules/users/users.module';
     }),
     UsersModule,
     AccountsModule,
+  ],
+  providers: [
+    { provide: APP_FILTER, useClass: BadRequestExceptionFilter },
   ],
   exports: [UsersModule, AccountsModule]
 })

@@ -1,7 +1,10 @@
-import * as mongoose from 'mongoose';
+import { Schema } from 'mongoose';
 import { PlanTodo } from './PlanTodo';
+let ObjectId = Schema.Types.ObjectId;
 
-export const ReqPlan = new mongoose.Schema({
+export const ReqPlanSchema = new Schema({
+    marriage_req_id: { type: ObjectId, index: true },
+    text: String,
     planTodos: {
         type: [PlanTodo]
     }

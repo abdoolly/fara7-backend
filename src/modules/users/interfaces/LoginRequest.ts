@@ -6,11 +6,10 @@ import { IsNotEmpty, IsString } from 'class-validator';
 @Injectable()
 export class LoginRequest {
     @ApiModelProperty({ example: 'abdoolly' })
-    @IsString()
+    @IsNotEmpty({ message: 'messages.no_username' })
     readonly username: String;
 
     @ApiModelProperty({ example: '123456789' })
-    @IsNotEmpty()
-    @IsString()
+    @IsNotEmpty({ message: 'messages.no_password' })
     readonly password: string;
 }
