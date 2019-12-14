@@ -3,9 +3,11 @@ import { Type } from 'class-transformer';
 import { IsNotEmpty, ValidateNested, IsDateString, IsDate } from "class-validator";
 
 export class PlanTodo {
+    @ApiModelProperty()
     @IsNotEmpty()
     text: string;
 
+    @ApiModelProperty()
     @IsNotEmpty()
     @IsDate({ message: 'Due Date must be a valid date string' })
     @Type(() => Date)

@@ -14,6 +14,16 @@ export class PlanTodoService {
         public i18n: I18nRequestScopeService
     ) { }
 
+    async listPlanTodos(reqPlanId: string) {
+        let reqPlan = await this.reqPlanModel.findById(reqPlanId);
+        if (!reqPlan)
+            throw new BadRequestException('no reqPlan with this ReqPlanId');
+
+        console.log("reqPlan", reqPlan);
+
+        return reqPlan.planTodos;
+    }
+
     async addPlanTodos(reqPlanId: string, planTodos: PlanTodo[]) {
         // validate that this reqplan belong to the logged in user
 

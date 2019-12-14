@@ -10,8 +10,10 @@ import { CreateReqPlan, PlanTodo } from '../validationDTO/CreateReqPlan';
 import { UpdateReqPlan } from '../validationDTO/UpdateReqPlan';
 import { UpdatePlanTodoParams } from '../validationDTO/UpdatePlanTodoReq';
 import { PlanTodoService } from '../services/plan-todo.service';
+import { ApiUseTags } from '@nestjs/swagger';
 
 @Controller('req-plans')
+@ApiUseTags('Requirement Plans / Plan Todos')
 export class ReqPlansController {
 
     constructor(
@@ -43,6 +45,12 @@ export class ReqPlansController {
     async deleteReqPlan(@Param('reqPlanId') reqPlanId: string) {
         this.utilService.isValidMongoId(reqPlanId, 'reqPlanId');
         return await this.reqPlanService.deleteReqPlan(reqPlanId);
+    }
+
+    @Get('/:reqPlanId/plan-todo')
+    async listPlanTodos(@Param('reqPlanId') reqPlanId: string) {
+        this.utilService.isValidMongoId(reqPlanId, 'reqPlanId');
+        return await this.planTodoService.listPlanTodos(reqPlanId);
     }
 
     @Post('/:reqPlanId/plan-todo')

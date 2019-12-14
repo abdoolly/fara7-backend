@@ -1,7 +1,7 @@
 import { Body, Controller, Post, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
-import { ApiOkResponse } from '@nestjs/swagger';
+import { ApiOkResponse, ApiUseTags } from '@nestjs/swagger';
 import { Model } from 'mongoose';
 import { I18n, I18nService } from 'nestjs-i18n';
 import { Public } from '../../helpers/decorators/Public';
@@ -10,6 +10,8 @@ import { RegisterRequest } from './interfaces/RegisterRequest';
 import { User } from './interfaces/Schemas.interface';
 import { Models } from '../../helpers/Models';
 
+
+@ApiUseTags('Authentication')
 @Controller('/auth')
 export class AuthController {
 

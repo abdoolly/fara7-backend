@@ -4,8 +4,10 @@ import { MarriageReqService } from '../services/marriage-req.service';
 import { AddCollabratorReq } from '../validationDTO/AddCollabratorReq';
 import { CreateMarriageReq } from '../validationDTO/CreateMarriageReq';
 import { UpdateMarriageReq } from '../validationDTO/UpdateMarriageReq';
+import { ApiUseTags } from '@nestjs/swagger';
 
 @Controller('marriage-req')
+@ApiUseTags('Marriage Requirement')
 export class MarriageReqController {
 
     constructor(
