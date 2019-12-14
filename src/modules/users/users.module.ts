@@ -4,7 +4,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfirmPassword } from '../../helpers/validators/ConfirmPassword';
 import { UserAlreadyExists } from '../../helpers/validators/Unique';
-import { AccountsModule } from '../accounts/accounts.module';
+import { MarriageReqModule } from '../accounts/marriageReq.module';
 import { AuthController } from './auth.controller';
 import { AuthGuard } from './guards/AuthGuard';
 import { UserSchema } from './schemas/User';
@@ -19,7 +19,7 @@ import { Models } from '../../helpers/Models';
         MongooseModule.forFeature([
             { name: Models.User, schema: UserSchema }
         ]),
-        forwardRef(() => AccountsModule),
+        forwardRef(() => MarriageReqModule),
     ],
     providers: [
         UserAlreadyExists,

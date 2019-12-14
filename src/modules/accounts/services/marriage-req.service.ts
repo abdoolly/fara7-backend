@@ -2,9 +2,9 @@ import { Injectable, BadRequestException, NotFoundException } from '@nestjs/comm
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { I18nRequestScopeService } from 'nestjs-i18n';
-import { Models } from '../../helpers/Models';
-import { MarriageReq } from './interfaces/MarriageReq';
-import { User } from '../users/interfaces/Schemas.interface';
+import { Models } from '../../../helpers/Models';
+import { MarriageReq } from '../interfaces/MarriageReq';
+import { User } from '../../users/interfaces/Schemas.interface';
 import { ObjectId } from 'mongodb';
 
 @Injectable()
@@ -37,7 +37,7 @@ export class MarriageReqService {
     async getMarriageReqs(owner_id: string) {
         let marriageReqs = await this.marriageReqModel.find({
             owner_id
-        }, { _id: 1, name: 1, ar_name: 1, en_name: 1 });
+        });
 
         return marriageReqs;
     }
@@ -66,5 +66,21 @@ export class MarriageReqService {
             throw new NotFoundException('owner_id or marriageReqId is wrong');
 
         return this.trns.translate('messages.success.coll_added');
+    }
+
+    async updateMarriageReq(ownerId: string, marriageReqId: string, data: { name: string }) {
+        let result = await this.marriageReqModel.findOneAndUpdate({
+            owner_id: ownerId,
+            _id: marriageReqId
+        }, {
+            $set: {
+                name: data.name
+            }
+        }, { new: true });
+
+        if (!result)
+            throw new BadRequestException('Cannot update this marriage requirement does not exist or does not belong to you');
+
+        return result;
     }
 }

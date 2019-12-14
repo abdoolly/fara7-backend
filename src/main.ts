@@ -19,12 +19,11 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({
     validationError: { target: false },
     whitelist: true,
-    forbidNonWhitelisted: true
+    forbidNonWhitelisted: true,
+    transform: true
   }));
 
   app.useGlobalInterceptors(new ResponseInterceptor<any>());
-  // app.useGlobalFilters(new BadRequestExceptionFilter());
-
 
   const options = new DocumentBuilder()
     .setTitle('Fara7')

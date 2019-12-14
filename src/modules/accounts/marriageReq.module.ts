@@ -2,10 +2,13 @@ import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Models } from '../../helpers/Models';
 import { UsersModule } from '../users/users.module';
-import { MarriageReqService } from './marriage-req.service';
-import { MarriageReqController } from './marriageReq.controller';
+import { MarriageReqService } from './services/marriage-req.service';
+import { MarriageReqController } from './controllers/marriageReq.controller';
 import { MarriageReqSchema } from './schemas/MarriageReq';
 import { ReqPlanSchema } from './schemas/ReqPlan';
+import { ReqPlansService } from './services/req-plans.service';
+import { ReqPlansController } from './controllers/req-plans.controller';
+import { UtilService } from '../../helpers/util.service';
 
 @Module({
     imports: [
@@ -15,8 +18,8 @@ import { ReqPlanSchema } from './schemas/ReqPlan';
         ]),
         forwardRef(() => UsersModule)
     ],
-    controllers: [MarriageReqController],
-    providers: [MarriageReqService],
+    controllers: [MarriageReqController, ReqPlansController],
+    providers: [MarriageReqService, ReqPlansService, UtilService],
     exports: []
 })
-export class AccountsModule { }
+export class MarriageReqModule { }

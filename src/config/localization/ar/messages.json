@@ -8,6 +8,7 @@
         "coll_added": "تم الأضافة بنجاح"
     },
     "user_not_found": "هذا الأسم غير موجود",
+    "wrong_creds": "الأسم أو كلمة المرور خاطئة",
     "no_self_collboration": "لا يمكن اضافة نفسك",
     "required": "هذا الحقل مطلوب"
 }

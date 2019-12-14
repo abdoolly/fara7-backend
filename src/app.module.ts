@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
+import { APP_FILTER } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
 import { HeaderResolver, I18nModule, QueryResolver } from 'nestjs-i18n';
 import * as path from 'path';
-import { AccountsModule } from './modules/accounts/accounts.module';
-import { UsersModule } from './modules/users/users.module';
-import { APP_FILTER } from '@nestjs/core';
 import { BadRequestExceptionFilter } from './Exceptions/bad-request-exc.filter';
+import { MarriageReqModule } from './modules/accounts/marriageReq.module';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
@@ -23,12 +23,12 @@ import { BadRequestExceptionFilter } from './Exceptions/bad-request-exc.filter';
       ]
     }),
     UsersModule,
-    AccountsModule,
+    MarriageReqModule,
   ],
   providers: [
     { provide: APP_FILTER, useClass: BadRequestExceptionFilter },
   ],
-  exports: [UsersModule, AccountsModule]
+  exports: [UsersModule, MarriageReqModule]
 })
 export class AppModule {
   // export class AppModule implements NestModule {

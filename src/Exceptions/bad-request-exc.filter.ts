@@ -32,7 +32,7 @@ export class BadRequestExceptionFilter implements ExceptionFilter {
 
         // handling case this is a manual threw exception and we are giving a string
         if (typeof exceptionResponse.message === 'string')
-            exceptionResponse.message = translate(exceptionResponse.message);
+            exceptionResponse.message = translate(exceptionResponse.message) || exceptionResponse.message;
 
         return response
             .status(status)
@@ -43,7 +43,7 @@ export class BadRequestExceptionFilter implements ExceptionFilter {
         for (let msg of messages) {
             if (msg.constraints && Object.keys(msg.constraints)) {
                 for (let [constraintName, message] of Object.entries(msg.constraints)) {
-                    msg.constraints[constraintName] = translate(message);
+                    msg.constraints[constraintName] = translate(message) || message;
                 }
             }
         }
