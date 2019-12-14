@@ -4,7 +4,7 @@ let ObjectId = Schema.Types.ObjectId;
 
 export const ReqPlanSchema = new Schema({
     marriage_req_id: { type: ObjectId, index: true },
-    text: String,
+    planName: String,
     planTodos: {
         type: [PlanTodo]
     }

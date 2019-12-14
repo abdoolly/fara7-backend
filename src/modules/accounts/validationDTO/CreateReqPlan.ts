@@ -1,12 +1,14 @@
 import { ApiModelProperty } from "@nestjs/swagger";
 import { Type } from 'class-transformer';
-import { IsNotEmpty, ValidateNested } from "class-validator";
+import { IsNotEmpty, ValidateNested, IsDateString, IsDate } from "class-validator";
 
 export class PlanTodo {
     @IsNotEmpty()
     text: string;
 
     @IsNotEmpty()
+    @IsDate({ message: 'Due Date must be a valid date string' })
+    @Type(() => Date)
     dueDate: Date;
 }
 
@@ -23,7 +25,7 @@ export class CreateReqPlan {
     })
     @Type(() => PlanTodo)
     @ValidateNested({ each: true })
-    planTodo: PlanTodo[];
+    planTodos: PlanTodo[];
 }
 
 

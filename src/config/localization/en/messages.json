@@ -5,7 +5,8 @@
     "success": {
         "login": "Successfully logged in",
         "register": "Registered Successfully",
-        "coll_added": "Collaborator was added successfully"
+        "coll_added": "Collaborator was added successfully",
+        "deleted": "Deleted Successfully"
     },
     "user_not_found": "Username not found",
     "wrong_creds": "Wrong username or password",

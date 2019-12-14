@@ -9,6 +9,7 @@ import { ReqPlanSchema } from './schemas/ReqPlan';
 import { ReqPlansService } from './services/req-plans.service';
 import { ReqPlansController } from './controllers/req-plans.controller';
 import { UtilService } from '../../helpers/util.service';
+import { PlanTodoService } from './services/plan-todo.service';
 
 @Module({
     imports: [
@@ -19,7 +20,12 @@ import { UtilService } from '../../helpers/util.service';
         forwardRef(() => UsersModule)
     ],
     controllers: [MarriageReqController, ReqPlansController],
-    providers: [MarriageReqService, ReqPlansService, UtilService],
+    providers: [
+        MarriageReqService,
+        ReqPlansService,
+        UtilService,
+        PlanTodoService
+    ],
     exports: []
 })
 export class MarriageReqModule { }
