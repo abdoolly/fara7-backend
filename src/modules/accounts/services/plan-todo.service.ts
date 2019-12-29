@@ -58,7 +58,7 @@ export class PlanTodoService {
             // filtering the array to only get the first element if the array that match the planTodo id
             projection: {
                 planTodos: {
-                    $elemMatch: { _id: "5df452e7d19b28332ee8df1a" }
+                    $elemMatch: { _id: planTodoId }
                 }
             }
         });

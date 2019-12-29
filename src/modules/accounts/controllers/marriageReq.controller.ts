@@ -16,6 +16,7 @@ export class MarriageReqController {
 
     @Get('/')
     async getMarriageReqs(@Req() { user }: Request) {
+        // dont forget to add the marriage requirements of the collborators
         return await this.marriageReqService.getMarriageReqs(user._id);
     }
 
