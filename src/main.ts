@@ -1,11 +1,10 @@
 let result = require('dotenv').config();
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { useContainer } from 'class-validator';
 import { AppModule } from './app.module';
 import { ResponseInterceptor } from './interceptors/Response.interceptor';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { BadRequestExceptionFilter } from './Exceptions/bad-request-exc.filter';
 if (result.error) {
   throw result.error;
 }
