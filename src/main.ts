@@ -28,7 +28,7 @@ async function bootstrap() {
     .setTitle('Fara7')
     .setDescription('What you need to make the start of your begining')
     .setVersion('1.0')
-    .setHost('localhost:3000')
+    .setHost(process.env.host_url)
     .setBasePath('/')
     .addBearerAuth()
     .build();
