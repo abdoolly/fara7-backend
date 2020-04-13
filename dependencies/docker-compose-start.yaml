@@ -1,6 +1,6 @@
 version: "3.7"
 services:
-  mongo:
+  mongo-plano:
     image: mongo:4.2.1-bionic
     ports:
       - 27017:27017
