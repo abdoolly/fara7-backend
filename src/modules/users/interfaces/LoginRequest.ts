@@ -7,7 +7,7 @@ import { IsNotEmpty, IsString } from 'class-validator';
 export class LoginRequest {
     @ApiModelProperty({ example: 'abdoolly' })
     @IsNotEmpty({ message: 'messages.no_username' })
-    readonly username: String;
+    readonly identifier: String;
 
     @ApiModelProperty({ example: '123456789' })
     @IsNotEmpty({ message: 'messages.no_password' })

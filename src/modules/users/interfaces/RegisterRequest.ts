@@ -8,8 +8,7 @@ import { IsUserAlreadyExist } from "../../../helpers/validators/Unique";
 export class RegisterRequest {
     @ApiModelProperty()
     @IsNotEmpty({ message: 'messages.no_username' })
-    @IsUserAlreadyExist({ message: 'messages.user_exists' })
-    username: string;
+    emailOrPhone: string;
 
     @ApiModelProperty()
     @IsNotEmpty({ message: 'messages.no_name' })

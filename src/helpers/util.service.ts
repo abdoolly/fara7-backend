@@ -11,4 +11,18 @@ export class UtilService {
 
         return true;
     }
+
+    /**
+     * @description check if a certain field has a unique value 
+     * @param model 
+     * @param fieldName 
+     * @param value 
+     */
+    async isUnique(model: any, fieldName: string, value: any) {
+        const user = await model.findOne({ [fieldName]: value });
+        if (user)
+            throw new BadRequestException(`${fieldName} is already exists`);
+
+        return true;
+    }
 }
