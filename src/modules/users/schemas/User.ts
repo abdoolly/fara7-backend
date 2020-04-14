@@ -6,3 +6,6 @@ export const UserSchema = new mongoose.Schema({
     name: String,
     password: String
 });
+
+UserSchema.index({ email: 1 }, { unique: true, sparse: true });
+UserSchema.index({ phone: 1 }, { unique: true, sparse: true });

@@ -1,8 +1,9 @@
 declare namespace Express {
     export interface User {
         _id: string;
-        username: string;
-        name: string;
-        password: string;
+        phone?: string;
+        email?: string;
+        name?: string;
+        password?: string;
     }
 }

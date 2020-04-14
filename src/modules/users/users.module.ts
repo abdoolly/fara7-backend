@@ -10,6 +10,7 @@ import { AuthGuard } from './guards/AuthGuard';
 import { UserSchema } from './schemas/User';
 import { UsersController } from './users.controller';
 import { Models } from '../../helpers/Models';
+import { UtilService } from '../../helpers/util.service';
 
 @Module({
     imports: [
@@ -24,6 +25,7 @@ import { Models } from '../../helpers/Models';
     providers: [
         UserAlreadyExists,
         ConfirmPassword,
+        UtilService,
         { provide: APP_GUARD, useClass: AuthGuard },
     ],
     controllers: [UsersController, AuthController],

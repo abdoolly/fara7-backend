@@ -34,7 +34,7 @@ export class AuthController {
         let isEmail = validator.isEmail(identifier);
 
         if (!isPhone && !isEmail) {
-            throw new BadRequestException('Must enter either phone or email');
+            throw new BadRequestException('Must enter a valid phone or email');
         }
 
         delete data.emailOrPhone;
@@ -71,6 +71,10 @@ export class AuthController {
         let validator = new Validator();
         let isPhone = validator.isNumberString(identifier);
         let isEmail = validator.isEmail(identifier);
+
+        if (!isPhone && !isEmail) {
+            throw new BadRequestException('Must enter a valid phone or email');
+        }
 
         if (isPhone)
             searchFor['phone'] = identifier;

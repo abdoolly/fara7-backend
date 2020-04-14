@@ -21,7 +21,7 @@ export class UtilService {
     async isUnique(model: any, fieldName: string, value: any) {
         const user = await model.findOne({ [fieldName]: value });
         if (user)
-            throw new BadRequestException(`${fieldName} is already exists`);
+            throw new BadRequestException(`${fieldName} already exists`);
 
         return true;
     }
