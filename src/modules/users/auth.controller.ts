@@ -53,12 +53,12 @@ export class AuthController {
 
         return {
             message: i18n.translate('messages.success.register'),
-            token: await this.jwtService.signAsync(user.toJSON()),
             user: {
                 email: user.email,
                 phone: user.phone,
                 name: user.name
-            }
+            },
+            token: await this.jwtService.signAsync(user.toJSON()),
         };
     }
 
@@ -89,12 +89,12 @@ export class AuthController {
 
         return {
             message: i18n.translate('messages.success.login'),
-            token: await this.jwtService.signAsync(user.toJSON()),
             user: {
                 email: user.email,
                 phone: user.phone,
                 name: user.name
-            }
+            },
+            token: await this.jwtService.signAsync(user.toJSON()),
         };
     }
 }
