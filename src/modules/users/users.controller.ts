@@ -10,10 +10,4 @@ import { Models } from '../../helpers/Models';
 export class UsersController {
 
     constructor(@InjectModel(Models.User) private readonly UserModel: Model<User>) { }
-
-    @Get('/list/users')
-    async listUsers() {
-        let allUsers = await this.UserModel.find({});
-        return allUsers;
-    }
 }
