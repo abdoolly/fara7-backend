@@ -2,7 +2,7 @@ import { Injectable, BadRequestException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Models } from "../../../helpers/Models";
 import { Model } from "mongoose";
-import { ReqPlan } from "../interfaces/ReqPlan";
+import { ReqPlan, ReqPlanDoc } from "../interfaces/ReqPlan";
 import { PlanTodo } from "../interfaces/PlanTodo";
 import { I18nRequestScopeService } from "nestjs-i18n";
 
@@ -10,7 +10,7 @@ import { I18nRequestScopeService } from "nestjs-i18n";
 export class PlanTodoService {
 
     constructor(
-        @InjectModel(Models.req_plan) public readonly reqPlanModel: Model<ReqPlan>,
+        @InjectModel(Models.req_plan) public readonly reqPlanModel: Model<ReqPlanDoc>,
         public i18n: I18nRequestScopeService
     ) { }
 
@@ -21,7 +21,7 @@ export class PlanTodoService {
 
         console.log("reqPlan", reqPlan);
 
-        return reqPlan.planTodos;
+        // return reqPlan.planTodos;
     }
 
     async addPlanTodos(reqPlanId: string, planTodos: PlanTodo[]) {
@@ -68,7 +68,7 @@ export class PlanTodoService {
             throw new BadRequestException('ReqPlanId or planTodoId does not exist');
 
         // returning the first element since we know it will always be there 
-        return reqPlan.planTodos[0];
+        // return reqPlan.planTodos[0];
     }
 
     async deletePlanTodo(reqPlanId: string, planTodoId: string) {

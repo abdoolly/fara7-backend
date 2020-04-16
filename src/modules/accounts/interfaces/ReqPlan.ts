@@ -1,8 +1,13 @@
-import { PlanTodo } from "./PlanTodo";
 import { Document } from "mongoose";
 
-export interface ReqPlan extends Document {
-    marriage_req_id: string;
+export interface ReqPlan {
+    marriage_req_id?: string;
     planName: String,
-    planTodos: PlanTodo[]
+    cost: Number;
+    dueDate: Date;
+    note?: string;
+    done?: Boolean;
 }
+
+export interface ReqPlanDoc extends Document { }
+export interface ReqPlanDoc extends ReqPlan { }
