@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id            Int      @default(autoincrement()) @id
+  email         String   
+  phone         String
+  name          String
+  password      String
+  checklists    Checklist[]
+  categories    Category[]
+  tasks         Task[]
+  collaboratedOn Checklist[] @relation(name:"collaborators_on_rel", references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime   @updatedAt
+}
+
+model Checklist {
+  id            Int    @default(autoincrement()) @id
+  title         String
+  en_title      String
+  ar_title      String
+  owner         User   @relation(name: "owner_rel",fields: [ownerId], references: [id])
+  ownerId       Int
+  collaborators User[] @relation(name: "collaborators_on_rel", references: [id])
+  categories    Category[]
+}
+
+model Category {
+  id          Int       @default(autoincrement()) @id
+  title       String
+  checklist   Checklist @relation(fields:[checklistId], references: [id])
+  owner       User      @relation(fields: [ownerId], references: [id])
+  ownerId     Int
+  checklistId Int
+  Tasks       Task[]
+}
+
+model Task {
+  id          Int       @default(autoincrement()) @id
+  title       String
+  checklistId Int
+  categoryId  Int       
+  ownerId     Int
+  checklist   Checklist @relation(fields: [checklistId], references: [id])
+  category    Category  @relation(fields: [categoryId], references: [id])
+  owner       User      @relation(fields: [ownerId], references: [id])
+  cost        Float
+  dueDate     DateTime
+  status      Status    @default(pending)
+  note        String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+enum Status {
+  done
+  pending
+}
