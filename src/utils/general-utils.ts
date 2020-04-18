@@ -1,14 +1,14 @@
-import { ForbiddenError, ValidationError, AuthenticationError } from 'apollo-server-express';
-import * as _ from 'ramda';
-import { Prisma, User } from '../config/prisma-client';
-import { PipeInterface, pipeP, tapP } from './functional-utils';
-import { FieldNode, GraphQLOutputType, GraphQLObjectType, GraphQLSchema, FragmentDefinitionNode, OperationDefinitionNode } from 'graphql';
-import { Path } from 'graphql/jsutils/Path';
-import { Response, Request } from 'express';
+import { PrismaClient, User } from '@prisma/client';
+import { ForbiddenError, ValidationError } from 'apollo-server-express';
 import * as crypto from 'crypto';
+import { Request, Response } from 'express';
+import { FieldNode, FragmentDefinitionNode, GraphQLObjectType, GraphQLOutputType, GraphQLSchema, OperationDefinitionNode } from 'graphql';
+import { Path } from 'graphql/jsutils/Path';
+import * as _ from 'ramda';
+import { PipeInterface, pipeP, tapP } from './functional-utils';
 
 export interface GraphQlContext {
-    prisma: Prisma;
+    prisma: PrismaClient;
     user: User;
     res: Response;
     req: Request;
@@ -95,16 +95,6 @@ export const isAuthenticated: GQLResolver<{}> = _.tap(({ context }) => {
         throw new ForbiddenError('You are not authenticated');
 });
 
-export const isTeacher: GQLResolver<{}> = _.tap(({ context: { user } }) => {
-    if (user.userType !== 'TEACHER')
-        throw new AuthenticationError('Only teachers are allowed to this action');
-});
-
-export const isStudent: GQLResolver<{}> = _.tap(({ context: { user } }) => {
-    if (user.userType !== 'STUDENT')
-        throw new AuthenticationError('Only students are allowed to this action');
-});
-
 /**
  * @description graphql middleware that will make sure that a certain field is unique
  * @param param0 
@@ -123,7 +113,6 @@ const _SBU = (modelName: string | 'user', pathLensInArgs: _.Lens, dbFieldName: s
 // curried version of the above function just made it in another line for more readability 
 export const shouldBeUnique = _.curry(_SBU);
 export const checkPhoneUnique = shouldBeUnique('user', _.lensPath(['data', 'phone']), 'phone');
-
 
 
 export const toIdsObject = (arrIds?: any) => arrIds ? arrIds.map((_id) => ({ _id })) : undefined;

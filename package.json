@@ -10,8 +10,7 @@
     "build": "tsc",
     "docker": "docker-compose up -d",
     "prisma:stop": "docker-compose stop",
-    "prisma:deploy": "prisma deploy && prisma generate",
-    "do": "prisma migrate save --name init --experimental"
+    "migrate": "prisma migrate save --name init --experimental && prisma migrate up --experimental && prisma generate"
   },
   "dependencies": {
     "@prisma/cli": "^2.0.0-beta.2",
