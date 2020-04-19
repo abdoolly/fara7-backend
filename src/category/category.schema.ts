@@ -35,12 +35,12 @@ ${inputsOnly}
 ${typesOnly}
 
 extend type Query {
-    categories(ownerId: ID): [Category!]
+    categories(ownerId: Int): [Category!]
 }
 
 extend type Mutation {
     createCategory(data: CreateCategoryInput!): Category!
     createManyCategories(data: [CreateCategoryInput!]!): [Category!]!
-    updateCategory(categoryId: ID!, data: UpdateCategoryInput!): Category!
+    updateCategory(categoryId: Int!, data: UpdateCategoryInput!): Category!
 }
 `;

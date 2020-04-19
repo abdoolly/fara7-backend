@@ -10,7 +10,7 @@ const categories: GQLResolver<QueryCategoriesArgs> = ({
     where: { ownerId }, orderBy: { id: 'asc' }
 });
 
-const createCategory: GQLResolver<MutationCreateCategoryArgs> = async ({
+const createCategory: GQLResolver<MutationCreateCategoryArgs> = ({
     args: { data },
     context: { prisma, user }
 }) => prisma.category.create({
@@ -36,24 +36,37 @@ const createManyCategories: GQLResolver<MutationCreateManyCategoriesArgs> = ({
     return Promise.all(toPromisedData);
 };
 
-const updateCategories: GQLResolver<MutationUpdateCategoryArgs> = async ({
+const updateCategory: GQLResolver<MutationUpdateCategoryArgs> = async ({
     args: { categoryId, data },
     context: { prisma, user }
 }) => {
-    const { count } = await prisma.category.updateMany({
+    let categories = await prisma.category.findMany({
         where: {
             id: categoryId,
-            ownerId: user ? user.id : undefined
-        },
-        data: {
-            ...data
+            ownerId: user?.id
         }
     });
 
-    if (!count)
+    if (!categories.length)
         throw new UserInputError(`Category with id ${categoryId} does not exist`);
 
-    return count;
+    const category = await prisma.category.update({
+        where: {
+            id: categoryId,
+        },
+        data: {
+            ..._.omit(['checklistId'], data),
+            ...(data.checklistId ? {
+                checklist: {
+                    connect: {
+                        id: data.checklistId
+                    }
+                }
+            } : undefined)
+        }
+    });
+
+    return category;
 };
 
 const tasks: GQLResolver<any> = makeResolver('category', 'tasks');
@@ -67,7 +80,7 @@ const categoryResolvers = convertToResolverPipes({
     Mutation: {
         createCategory,
         createManyCategories,
-        updateCategories,
+        updateCategory,
     },
     Category: {
         tasks: resolverPipe(tasks),

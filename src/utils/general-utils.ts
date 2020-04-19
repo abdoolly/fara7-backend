@@ -153,4 +153,4 @@ export const nextDate = (day: string): Date => {
 }
 
 export const makeResolver = (modelName: string, relationName: string) => ({ root, context: { prisma } }) =>
-    prisma[modelName].findOne({ where: { id: root.id } })[relationName];
+    prisma[modelName].findOne({ where: { id: root.id } })[relationName]();

@@ -11,6 +11,7 @@ import { checklistTypeDef } from '../../checklist/checklist.schema';
 import { categoryTypeDef } from '../../category/category.schema';
 import { taskTypeDef } from '../../task/task.schema';
 import checklistResolvers from '../../checklist/checklist.resolver';
+import categoryResolvers from '../../category/category.resolver';
 
 // mocking layer
 const mocks = {
@@ -53,6 +54,7 @@ const apolloServer = new ApolloServer({
     resolvers: [
         userResolvers,
         checklistResolvers,
+        categoryResolvers,
         scalarResolvers,
     ],
     context: ({ req, res }) => {

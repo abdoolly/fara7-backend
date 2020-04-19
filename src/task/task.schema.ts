@@ -55,6 +55,6 @@ extend type Query {
 extend type Mutation {
     createTask(data: CreateTaskInput!): Task!
     createManyTasks(data: [CreateTaskInput!]!): [Task!]!
-    updateTask(taskId:ID!, data: UpdateTaskInput!): Task!
+    updateTask(taskId:ID!, data: UpdateTaskInput!): Int!
 }
 `;
