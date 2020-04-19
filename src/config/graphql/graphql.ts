@@ -94,6 +94,8 @@ const apolloServer = new ApolloServer({
         return err;
     },
     tracing: true,
+    playground: true,
+    introspection: true
 });
 
 export default apolloServer;
