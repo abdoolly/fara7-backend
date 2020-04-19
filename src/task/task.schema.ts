@@ -16,6 +16,7 @@ input UpdateTaskInput {
     categoryId: Int
     cost: Float
     dueDate: DateTime
+    status: Status
     note: String
 }
 `;
@@ -38,6 +39,7 @@ type Task {
     cost: Float
     dueDate: DateTime @date
     status: Status
+    done: Boolean!
     note: String
     createdAt: DateTime! 
     updatedAt: DateTime! 
@@ -49,12 +51,11 @@ ${inputsOnly}
 ${typesOnly}
 
 extend type Query {
-    tasks(categoryId: ID, checklistId: ID): [Task!]
+    tasks(title_contain: String , categoryId: Int, checklistId: Int): [Task!]
 }
 
 extend type Mutation {
     createTask(data: CreateTaskInput!): Task!
-    createManyTasks(data: [CreateTaskInput!]!): [Task!]!
-    updateTask(taskId:ID!, data: UpdateTaskInput!): Int!
+    updateTask(taskId: Int!, data: UpdateTaskInput!): Task!
 }
 `;

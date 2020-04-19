@@ -12,6 +12,7 @@ import { categoryTypeDef } from '../../category/category.schema';
 import { taskTypeDef } from '../../task/task.schema';
 import checklistResolvers from '../../checklist/checklist.resolver';
 import categoryResolvers from '../../category/category.resolver';
+import taskResolvers from '../../task/task.resolver';
 
 // mocking layer
 const mocks = {
@@ -55,6 +56,7 @@ const apolloServer = new ApolloServer({
         userResolvers,
         checklistResolvers,
         categoryResolvers,
+        taskResolvers,
         scalarResolvers,
     ],
     context: ({ req, res }) => {
@@ -84,7 +86,7 @@ const apolloServer = new ApolloServer({
         if (err.name === 'ValidationError')
             return err;
 
-        console.log('\x1b[41m', 'Error:', err.message);
+        console.log('Error:', err.message);
 
         if (err.extensions)
             console.log(err.extensions.exception.stacktrace.join('\n'));

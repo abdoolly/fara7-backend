@@ -3,7 +3,7 @@
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 generator client {
@@ -63,7 +63,7 @@ model Task {
   cost        Float?
   dueDate     DateTime?
   status      Status    @default(pending)
-  note        String?
+  note        String
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 }

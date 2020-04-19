@@ -113,8 +113,9 @@ export type QueryCategoriesArgs = {
 };
 
 export type QueryTasksArgs = {
-    categoryId?: Maybe<Scalars["ID"]>;
-    checklistId?: Maybe<Scalars["ID"]>;
+    title_contain?: Maybe<Scalars["String"]>;
+    categoryId?: Maybe<Scalars["Int"]>;
+    checklistId?: Maybe<Scalars["Int"]>;
 };
 
 export type RegisterInput = {

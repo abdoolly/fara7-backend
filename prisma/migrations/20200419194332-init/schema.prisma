@@ -3,7 +3,7 @@
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 generator client {
@@ -61,9 +61,9 @@ model Task {
   category    Category  @relation(fields: [categoryId], references: [id])
   owner       User      @relation(fields: [ownerId], references: [id])
   cost        Float?
-  dueDate     DateTime?
+  dueDate     DateTime
   status      Status    @default(pending)
-  note        String?
+  note        String
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 }
