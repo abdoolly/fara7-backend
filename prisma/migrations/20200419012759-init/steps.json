@@ -1,0 +1,17 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "UpdateField",
+      "model": "Checklist",
+      "field": "en_title",
+      "arity": "Optional"
+    },
+    {
+      "tag": "UpdateField",
+      "model": "Checklist",
+      "field": "ar_title",
+      "arity": "Optional"
+    }
+  ]
+}

@@ -105,14 +105,18 @@ const _SBU = (modelName: string | 'user', pathLensInArgs: _.Lens, dbFieldName: s
         context: { prisma }
     }: ResolverArgs<any>) => {
         const fieldToCheck = _.view(pathLensInArgs, args);
-        const found = await prisma[modelName]({ [dbFieldName]: fieldToCheck });
-        if (found) {
+        let found = null;
+
+        if (fieldToCheck)
+            found = await prisma[modelName].findOne({ where: { [dbFieldName]: fieldToCheck } });
+
+        if (found)
             throw new ValidationError(`${dbFieldName} already exists`);
-        }
     })
 // curried version of the above function just made it in another line for more readability 
 export const shouldBeUnique = _.curry(_SBU);
-export const checkPhoneUnique = shouldBeUnique('user', _.lensPath(['data', 'phone']), 'phone');
+export const checkPhoneUnique = shouldBeUnique('user', _.lensPath(['data', 'identifier']), 'phone');
+export const checkEmailUnique = shouldBeUnique('user', _.lensPath(['data', 'identifier']), 'email');
 
 
 export const toIdsObject = (arrIds?: any) => arrIds ? arrIds.map((_id) => ({ _id })) : undefined;
@@ -147,3 +151,6 @@ export const nextDate = (day: string): Date => {
     today.setDate(today.getDate() + (dayIndex - 1 - today.getDay() + 7) % 7 + 1);
     return today;
 }
+
+export const makeResolver = (modelName: string, relationName: string) => ({ root, context: { prisma } }) =>
+    prisma[modelName].findOne({ where: { id: root.id } })[relationName];

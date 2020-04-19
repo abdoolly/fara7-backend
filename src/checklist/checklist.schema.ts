@@ -20,8 +20,8 @@ type Checklist {
     title: String!
     en_title: String
     ar_title: String
-    ownerId: Int!
-    owner: User!
+    ownerId: Int
+    owner: User
     collaborators: [User!]
     categories: [Category!]
 }
@@ -32,12 +32,12 @@ ${inputsOnly}
 ${typesOnly}
 
 extend type Query {
-    checklists(ownerId: ID): [Checklist!]
+    checklists(ownerId: Int): [Checklist!]
 }
 
 extend type Mutation {
     createChecklist(data: CreateChecklistInput!): Checklist!
     createManyChecklists(data: [CreateChecklistInput!]!): [Checklist!]!
-    updateChecklist(checklistId: ID!, data: UpdateCheclistInput!): Checklist!
+    updateChecklist(checklistId: Int!, data: UpdateCheclistInput!): Int!
 }
 `;

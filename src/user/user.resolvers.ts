@@ -1,72 +1,83 @@
-import { AuthenticationError, toApolloError, UserInputError } from "apollo-server-express";
+import { AuthenticationError, UserInputError } from "apollo-server-express";
 import * as _ from 'ramda';
 import { signJWT } from "../config/jwt";
+import {
+    convertToResolverPipes,
+    GQLResolver,
+    resolverPipe,
+    checkPhoneUnique,
+    checkEmailUnique,
+    makeResolver
+} from "../utils/general-utils";
+import { QueryLoginArgs, MutationRegisterArgs } from "../config/schema.interface";
+import { isEmail, isNumberString } from 'class-validator';
+import { getIdentifierObject } from "./user.utils";
 import { pipeP } from "../utils/functional-utils";
-import { checkPhoneUnique, convertToResolverPipes, GQLResolver, resolverPipe } from "../utils/general-utils";
 
-// const login: GQLResolver<any> = async ({
-//     args: { phone, password },
-//     context: { prisma }
-// }) => {
-//     const user = await prisma.user({ phone });
-//     if (!user)
-//         throw new AuthenticationError('Wrong phone or password');
+const login: GQLResolver<QueryLoginArgs> = async ({
+    args: { identifier, password },
+    context: { prisma }
+}) => {
+    const user = await prisma.user.findOne({
+        where: {
+            email: isEmail(identifier) ? identifier : undefined,
+            phone: isNumberString(identifier) ? identifier : undefined
+        }
+    });
 
-//     if (user.password !== password)
-//         throw new AuthenticationError('Wrong phone or password');
+    if (!user)
+        throw new AuthenticationError('Wrong phone or password');
 
-//     return {
-//         user,
-//         token: signJWT(_.omit(['password'], user))
-//     }
-// }
+    if (user.password !== password)
+        throw new AuthenticationError('Wrong phone or password');
 
-// const registerUser: GQLResolver<CreateTeacherArgs> = async ({
-//     args: { data },
-//     context: { prisma }
-// }) => {
-// if (data.password !== data.confirmPassword)
-//     throw new UserInputError('Password and confirm password does not match');
+    return {
+        user,
+        token: signJWT(_.omit(['password'], user))
+    }
+}
 
-// const mainUserData = _.omit(['confirmPassword', 'subjects', 'profileImg'], {
-//     ...data,
-//     userType: data.userType,
-// }) as any;
+const register: GQLResolver<MutationRegisterArgs> = async ({
+    args: { data: { identifier, ...data } },
+    context: { prisma }
+}) => {
+    if (data.password !== data.confirmPassword)
+        throw new UserInputError('Password and confirm password does not match');
 
-// let downloadPath = null;
-// try {
-//     ({ downloadPath } = await uploadFile(data.profileImg, IMG_UPLOAD_LOCATION) as any);
-// } catch (err) {
-//     throw toApolloError(err);
-// }
+    const mainUserData = _.omit(['confirmPassword'], {
+        ...data,
+    }) as any;
 
-// const user = await prisma.createUser({
-//     ...mainUserData,
-//     profileImg: downloadPath || null,
-//     // connecting the subjects incase they exist 
-//     ...(
-//         data.subjects ? {
-//             subjects: {
-//                 connect: data.subjects.map((_id) => ({ _id }))
-//             }
-//         } : undefined)
-// });
+    const user = await prisma.user.create({
+        data: {
+            ...mainUserData,
+            ...getIdentifierObject(identifier)
+        }
+    });
 
-// return {
-//     user,
-//     token: signJWT(_.omit(['password'], user))
-// }
-// };
+    return {
+        user,
+        token: signJWT(_.omit(['password'], user))
+    }
+};
+
+const checklists: GQLResolver<any> = makeResolver('user', 'checklist');
+const categories: GQLResolver<any> = makeResolver('user', 'categories');
+const tasks: GQLResolver<any> = makeResolver('user', 'tasks');
+const collaboratedOn: GQLResolver<any> = makeResolver('user', 'collaboratedOn');
 
 const userResolvers = convertToResolverPipes({
     Query: {
-
+        login,
     },
     Mutation: {
-
+        register: pipeP([checkPhoneUnique, checkEmailUnique, register])
     },
     User: {
-
+        checklists: resolverPipe(checklists),
+        categories: resolverPipe(categories),
+        tasks: resolverPipe(tasks),
+        collaboratedOn: resolverPipe(collaboratedOn),
     }
 });
 

@@ -3,7 +3,7 @@
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 generator client {
@@ -22,7 +22,6 @@ model User {
   categories     Category[]
   tasks          Task[]
   marriageDate   DateTime?
-  prepCost       Float?
   collaboratedOn Checklist[] @relation(name:"collaborators_on_rel", references: [id])
   createdAt      DateTime @default(now())
   updatedAt      DateTime   @updatedAt

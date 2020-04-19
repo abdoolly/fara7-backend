@@ -2,6 +2,8 @@ import { sign, verify } from 'jsonwebtoken';
 import * as _ from 'ramda';
 import { Request, Response, NextFunction } from 'express';
 import { AuthenticationError } from 'apollo-server';
+import dotenv from 'dotenv';
+const dotenvResult = dotenv.config();
 
 const secret: any = process.env.secret;
 

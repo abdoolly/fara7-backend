@@ -2,7 +2,6 @@ import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import express from 'express';
 import logger from 'morgan';
-import * as path from 'path';
 import apolloServer from './config/graphql/graphql';
 const dotenvResult = dotenv.config();
 if (dotenvResult.error) {

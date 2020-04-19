@@ -10,6 +10,7 @@ import { PrismaClient } from '@prisma/client';
 import { checklistTypeDef } from '../../checklist/checklist.schema';
 import { categoryTypeDef } from '../../category/category.schema';
 import { taskTypeDef } from '../../task/task.schema';
+import checklistResolvers from '../../checklist/checklist.resolver';
 
 // mocking layer
 const mocks = {
@@ -49,9 +50,9 @@ const apolloServer = new ApolloServer({
         taskTypeDef,
         userTypeDef,
     ],
-    mocks,
     resolvers: [
         userResolvers,
+        checklistResolvers,
         scalarResolvers,
     ],
     context: ({ req, res }) => {
@@ -84,7 +85,7 @@ const apolloServer = new ApolloServer({
         console.log('\x1b[41m', 'Error:', err.message);
 
         if (err.extensions)
-            console.log('\x1b[41m', err.extensions.exception.stacktrace.join('\n'));
+            console.log(err.extensions.exception.stacktrace.join('\n'));
 
         return err;
     },

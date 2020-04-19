@@ -3,7 +3,7 @@
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 generator client {
@@ -11,28 +11,24 @@ generator client {
 }
 
 model User {
-  id             Int       @default(autoincrement()) @id
-  email          String?   @unique
-  phone          String?   @unique
-  name           String?
-  spouseName     String?
-  password       String?
-  gender         Gender?   @default(Male)
-  checklists     Checklist[]
-  categories     Category[]
-  tasks          Task[]
-  marriageDate   DateTime?
-  prepCost       Float?
+  id            Int      @default(autoincrement()) @id
+  email         String?   @unique
+  phone         String?   @unique
+  name          String?
+  password      String?
+  checklists    Checklist[]
+  categories    Category[]
+  tasks         Task[]
   collaboratedOn Checklist[] @relation(name:"collaborators_on_rel", references: [id])
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime   @updatedAt
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime   @updatedAt
 }
 
 model Checklist {
   id            Int    @default(autoincrement()) @id
   title         String
-  en_title      String?
-  ar_title      String?
+  en_title      String
+  ar_title      String
   owner         User?   @relation(name: "owner_rel",fields: [ownerId], references: [id])
   ownerId       Int?
   collaborators User[] @relation(name: "collaborators_on_rel", references: [id])
@@ -71,9 +67,4 @@ model Task {
 enum Status {
   done
   pending
-}
-
-enum Gender {
-  Male
-  Female
 }

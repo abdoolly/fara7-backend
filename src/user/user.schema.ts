@@ -2,18 +2,32 @@ import { gql } from "apollo-server-express";
 
 const inputsOnly = `
 input RegisterInput {
-    identifier: String
+    identifier: String!
+    name: String
     password: String!
     confirmPassword: String!
+    gender: Gender!
+    spouseName: String
+    marriageDate: DateTime
+    prepCost: Int
 }
 `;
 
 const typesOnly = `
+enum Gender {
+    Male
+    Female
+}
+
 type User {
     id: ID!
     email: String
     phone: String
     name: String
+    spouseName: String
+    gender: Gender
+    marriageDate: DateTime @date
+    prepCost: Int
     checklists: [Checklist!]
     categories: [Category!]
     tasks: [Task!]

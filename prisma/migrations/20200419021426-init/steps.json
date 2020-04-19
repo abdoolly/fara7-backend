@@ -1,0 +1,45 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "CreateEnum",
+      "enum": "Gender",
+      "values": [
+        "Male",
+        "Female"
+      ]
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "gender",
+      "type": "Gender",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "gender"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "gender"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "Male"
+    }
+  ]
+}
