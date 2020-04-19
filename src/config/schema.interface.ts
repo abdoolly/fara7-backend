@@ -78,11 +78,11 @@ export type MutationCreateCategoryArgs = {
 };
 
 export type MutationCreateManyCategoriesArgs = {
-    data?: Maybe<Array<CreateCategoryInput>>;
+    data: Array<CreateCategoryInput>;
 };
 
 export type MutationUpdateCategoryArgs = {
-    categoryId: Scalars["ID"];
+    categoryId: Scalars["Int"];
     data: UpdateCategoryInput;
 };
 
@@ -109,7 +109,7 @@ export type QueryChecklistsArgs = {
 };
 
 export type QueryCategoriesArgs = {
-    ownerId?: Maybe<Scalars["ID"]>;
+    ownerId?: Maybe<Scalars["Int"]>;
 };
 
 export type QueryTasksArgs = {

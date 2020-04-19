@@ -40,7 +40,7 @@ extend type Query {
 
 extend type Mutation {
     createCategory(data: CreateCategoryInput!): Category!
-    createManyCategories(data: [CreateCategoryInput!]): [Category!]!
+    createManyCategories(data: [CreateCategoryInput!]!): [Category!]!
     updateCategory(categoryId: ID!, data: UpdateCategoryInput!): Category!
 }
 `;

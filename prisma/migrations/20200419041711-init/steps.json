@@ -1,0 +1,17 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "UpdateField",
+      "model": "Category",
+      "field": "en_title",
+      "arity": "Optional"
+    },
+    {
+      "tag": "UpdateField",
+      "model": "Category",
+      "field": "ar_title",
+      "arity": "Optional"
+    }
+  ]
+}

@@ -42,7 +42,7 @@ const updateChecklist: GQLResolver<MutationUpdateChecklistArgs> = async ({
     });
 
     if (!count)
-        throw new UserInputError(`Checklist with id ${checklistId}`);
+        throw new UserInputError(`Checklist with id ${checklistId} does not exist`);
 
     return count;
 };
