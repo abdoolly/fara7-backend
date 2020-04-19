@@ -1,7 +1,7 @@
-import { convertToResolverPipes, GQLResolver, makeResolver, resolverPipe } from "../utils/general-utils";
-import { MutationUpdateCategoryArgs, MutationCreateManyCategoriesArgs, MutationCreateCategoryArgs, QueryCategoriesArgs } from "../config/schema.interface";
-import * as _ from 'ramda';
 import { UserInputError } from "apollo-server";
+import * as _ from 'ramda';
+import { MutationCreateCategoryArgs, MutationCreateManyCategoriesArgs, MutationUpdateCategoryArgs, QueryCategoriesArgs } from "../config/schema.interface";
+import { convertToResolverPipes, GQLResolver, makeResolver, resolverPipe } from "../utils/general-utils";
 
 const categories: GQLResolver<QueryCategoriesArgs> = ({
     args: { ownerId },

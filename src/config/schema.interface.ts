@@ -95,7 +95,7 @@ export type MutationCreateManyTasksArgs = {
 };
 
 export type MutationUpdateTaskArgs = {
-    taskId: Scalars["ID"];
+    taskId: Scalars["Int"];
     data: UpdateTaskInput;
 };
 
