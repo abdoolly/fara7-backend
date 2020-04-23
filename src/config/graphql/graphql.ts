@@ -1,18 +1,17 @@
+import { PrismaClient } from '@prisma/client';
 import { ApolloServer, gql } from 'apollo-server-express';
-import casual from 'casual';
 import { DateTimeResolver, EmailAddressResolver, ObjectIDResolver, URLResolver } from 'graphql-scalars';
+import categoryResolvers from '../../category/category.resolver';
+import { categoryTypeDef } from '../../category/category.schema';
+import checklistResolvers from '../../checklist/checklist.resolver';
+import { checklistTypeDef } from '../../checklist/checklist.schema';
+import taskResolvers from '../../task/task.resolver';
+import { taskTypeDef } from '../../task/task.schema';
 import userResolvers from '../../user/user.resolvers';
 import { userTypeDef } from '../../user/user.schema';
 import { fromHeaderOrQuerystring, verifyJWT } from '../jwt';
 import { UpperCaseDirective } from './directives/auth.directive';
 import { DateFormatDirective } from './directives/date.directive';
-import { PrismaClient } from '@prisma/client';
-import { checklistTypeDef } from '../../checklist/checklist.schema';
-import { categoryTypeDef } from '../../category/category.schema';
-import { taskTypeDef } from '../../task/task.schema';
-import checklistResolvers from '../../checklist/checklist.resolver';
-import categoryResolvers from '../../category/category.resolver';
-import taskResolvers from '../../task/task.resolver';
 
 // mocking layer
 const mocks = {
@@ -91,6 +90,8 @@ const apolloServer = new ApolloServer({
 
         if (err.extensions)
             console.log(err.extensions.exception.stacktrace.join('\n'));
+
+        delete err.extensions?.exception?.stacktrace;
 
         return err;
     },
