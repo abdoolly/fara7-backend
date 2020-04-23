@@ -77,6 +77,7 @@ const apolloServer = new ApolloServer({
             req
         };
     },
+    debug: true,
     schemaDirectives: {
         // auth: AuthDirective,
         upper: UpperCaseDirective,
