@@ -14,11 +14,11 @@ import { UpperCaseDirective } from './directives/auth.directive';
 import { DateFormatDirective } from './directives/date.directive';
 
 // mocking layer
-// const mocks = {
-//     User: () => ({
+const mocks = {
+    User: () => ({
 
-//     }),
-// };
+    }),
+};
 
 export const prisma = new PrismaClient();
 
