@@ -1,5 +1,5 @@
 module.exports = {
-    // hello world
+    // world hello
     apps: [{
         name: 'plano',
         script: 'yarn',
