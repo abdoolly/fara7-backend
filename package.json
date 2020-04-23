@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./build/bin/www",
-    "prod": "PORT=80 node ./build/bin/www",
+    "prod": "node ./build/bin/www",
     "dev": "nodemon ./build/bin/www",
     "watch": "tsc --watch",
     "build": "tsc",

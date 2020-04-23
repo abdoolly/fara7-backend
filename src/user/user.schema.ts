@@ -48,6 +48,7 @@ ${typesOnly}
 
 type Query {
     login(identifier: String!, password: String!): AuthenticatedUserOutput!
+    validateRegister(identifier: String!) : Boolean!
 }
 
 type Mutation {

@@ -7,9 +7,10 @@ import {
     resolverPipe,
     checkPhoneUnique,
     checkEmailUnique,
-    makeResolver
+    makeResolver,
+    checkPhoneAndEmail
 } from "../utils/general-utils";
-import { QueryLoginArgs, MutationRegisterArgs } from "../config/schema.interface";
+import { QueryLoginArgs, MutationRegisterArgs, QueryValidateRegister } from "../config/schema.interface";
 import { isEmail, isNumberString } from 'class-validator';
 import { getIdentifierObject } from "./user.utils";
 import { pipeP } from "../utils/functional-utils";
@@ -61,6 +62,8 @@ const register: GQLResolver<MutationRegisterArgs> = async ({
     }
 };
 
+const validateRegister: GQLResolver<QueryValidateRegister> = () => true;
+
 const checklists: GQLResolver<any> = makeResolver('user', 'checklist');
 const categories: GQLResolver<any> = makeResolver('user', 'categories');
 const tasks: GQLResolver<any> = makeResolver('user', 'tasks');
@@ -69,6 +72,7 @@ const collaboratedOn: GQLResolver<any> = makeResolver('user', 'collaboratedOn');
 const userResolvers = convertToResolverPipes({
     Query: {
         login,
+        validateRegister: pipeP([...checkPhoneAndEmail, validateRegister]),
     },
     Mutation: {
         register: pipeP([checkPhoneUnique, checkEmailUnique, register])

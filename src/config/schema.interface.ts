@@ -9,6 +9,10 @@ export type Scalars = {
     DateTime: any;
 };
 
+export type QueryValidateRegister = {
+    identifier: string;
+};
+
 export type Category = {
     __typename?: "Category";
     id: Scalars["ID"];

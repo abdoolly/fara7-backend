@@ -117,6 +117,10 @@ const _SBU = (modelName: string | 'user', pathLensInArgs: _.Lens, dbFieldName: s
 export const shouldBeUnique = _.curry(_SBU);
 export const checkPhoneUnique = shouldBeUnique('user', _.lensPath(['data', 'identifier']), 'phone');
 export const checkEmailUnique = shouldBeUnique('user', _.lensPath(['data', 'identifier']), 'email');
+export const checkPhoneAndEmail = [
+    shouldBeUnique('user', _.lensPath(['identifier']), 'phone'),
+    shouldBeUnique('user', _.lensPath(['identifier']), 'email'),
+];
 
 
 export const toIdsObject = (arrIds?: any) => arrIds ? arrIds.map((_id) => ({ _id })) : undefined;
