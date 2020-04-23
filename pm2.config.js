@@ -5,7 +5,7 @@ module.exports = {
         args: 'prod',
         interpreter: '/bin/bash',
         env: {
-            NODE_ENV: 'development'
+            NODE_ENV: 'production'
         }
     }]
 };
