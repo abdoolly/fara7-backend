@@ -4,10 +4,10 @@ import { MutationCreateCategoryArgs, MutationCreateManyCategoriesArgs, MutationU
 import { convertToResolverPipes, GQLResolver, makeResolver, resolverPipe } from "../utils/general-utils";
 
 const categories: GQLResolver<QueryCategoriesArgs> = ({
-    args: { ownerId },
+    args: { ownerId, checklistId },
     context: { prisma }
 }) => prisma.category.findMany({
-    where: { ownerId }, orderBy: { id: 'asc' }
+    where: { ownerId, checklistId }, orderBy: { id: 'asc' }
 });
 
 const createCategory: GQLResolver<MutationCreateCategoryArgs> = ({

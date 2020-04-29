@@ -35,7 +35,7 @@ ${inputsOnly}
 ${typesOnly}
 
 extend type Query {
-    categories(ownerId: Int): [Category!]
+    categories(ownerId: Int,checklistId: Int): [Category!]
 }
 
 extend type Mutation {

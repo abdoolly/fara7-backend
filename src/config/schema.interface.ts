@@ -114,6 +114,7 @@ export type QueryChecklistsArgs = {
 
 export type QueryCategoriesArgs = {
     ownerId?: Maybe<Scalars["Int"]>;
+    checklistId?: Maybe<Scalars["Int"]>;
 };
 
 export type QueryTasksArgs = {
