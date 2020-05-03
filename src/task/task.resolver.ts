@@ -1,6 +1,6 @@
 import { UserInputError } from "apollo-server";
 import * as _ from 'ramda';
-import { MutationCreateTaskArgs, MutationUpdateTaskArgs, QueryTasksArgs } from "../config/schema.interface";
+import { MutationCreateTaskArgs, MutationUpdateTaskArgs, QueryTasksArgs, MutationRemoveTaskArgs } from "../config/schema.interface";
 import { pipeP } from "../utils/functional-utils";
 import { convertToResolverPipes, GQLResolver, isAuthenticated, makeResolver, resolverPipe } from "../utils/general-utils";
 
@@ -79,6 +79,20 @@ const updateTask: GQLResolver<MutationUpdateTaskArgs> = async ({
     return task;
 };
 
+const removeTask: GQLResolver<MutationRemoveTaskArgs> = async ({
+    args: { taskId },
+    context: { prisma, user }
+}) => {
+    const payload = await prisma.task.deleteMany({
+        where: {
+            id: taskId,
+            ownerId: user.id
+        }
+    });
+
+    return payload.count !== 0;
+};
+
 const checklist: GQLResolver<any> = makeResolver('task', 'checklist');
 const category: GQLResolver<any> = makeResolver('task', 'category');
 const owner: GQLResolver<any> = makeResolver('task', 'owner');
@@ -98,7 +112,8 @@ const taskResolvers = convertToResolverPipes({
     },
     Mutation: {
         createTask: pipeP([isAuthenticated, createTask]),
-        updateTask: pipeP([isAuthenticated, updateTask])
+        updateTask: pipeP([isAuthenticated, updateTask]),
+        removeTask: pipeP([isAuthenticated, removeTask]),
     },
     Task: {
         checklist: resolverPipe(checklist),

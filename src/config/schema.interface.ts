@@ -201,3 +201,7 @@ export type User = {
     createdAt: Scalars["DateTime"];
     updatedAt: Scalars["DateTime"];
 };
+
+export type MutationRemoveTaskArgs = {
+    taskId: Scalars["Int"];
+};
