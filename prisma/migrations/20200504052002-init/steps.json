@@ -1,0 +1,28 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "CreateField",
+      "model": "Task",
+      "field": "orderNum",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Model",
+          "model": "Task",
+          "arguments": [
+            {
+              "name": "",
+              "value": "[ownerId, orderNum]"
+            }
+          ]
+        },
+        "directive": "unique"
+      }
+    }
+  ]
+}

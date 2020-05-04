@@ -83,7 +83,7 @@ const categoryResolvers = convertToResolverPipes({
         updateCategory,
     },
     Category: {
-        tasks: resolverPipe(tasks),
+        tasks: resolverPipe(tasks), // user in this case should be authenticated
         checklist: resolverPipe(checklist),
         owner: resolverPipe(owner),
     }

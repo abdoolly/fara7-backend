@@ -41,8 +41,13 @@ type Task {
     status: Status
     done: Boolean!
     note: String
+    orderNum: Int!
     createdAt: DateTime! 
     updatedAt: DateTime! 
+}
+
+type OrderTasksUpdateReturn {
+    count: Int!
 }
 `;
 
@@ -58,5 +63,6 @@ extend type Mutation {
     createTask(data: CreateTaskInput!): Task!
     updateTask(taskId: Int!, data: UpdateTaskInput!): Task!
     removeTask(taskId: Int!): Boolean!
+    orderTasks(currentOrder: [Int!]!, newOrder: [Int!]!): [OrderTasksUpdateReturn!]!
 }
 `;

@@ -205,3 +205,8 @@ export type User = {
 export type MutationRemoveTaskArgs = {
     taskId: Scalars["Int"];
 };
+
+export type MutationOrderTask = {
+    currentOrder: Array<Scalars["Int"]>;
+    newOrder: Array<Scalars["Int"]>;
+};
