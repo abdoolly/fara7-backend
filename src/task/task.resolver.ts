@@ -153,7 +153,7 @@ const taskResolvers = convertToResolverPipes({
         createTask: pipeP([isAuthenticated, createTask]),
         updateTask: pipeP([isAuthenticated, updateTask]),
         removeTask: pipeP([isAuthenticated, removeTask]),
-        orderTasks: pipeP([isAuthenticated, orderTasksById]),
+        orderTasksById: pipeP([isAuthenticated, orderTasksById]),
     },
     Task: {
         checklist: resolverPipe(checklist),
