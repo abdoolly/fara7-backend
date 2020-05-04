@@ -1,6 +1,6 @@
 import { UserInputError, ValidationError } from "apollo-server";
 import * as _ from 'ramda';
-import { MutationCreateTaskArgs, MutationUpdateTaskArgs, QueryTasksArgs, MutationRemoveTaskArgs, MutationOrderTask } from "../config/schema.interface";
+import { MutationCreateTaskArgs, MutationOrderTasksById, MutationRemoveTaskArgs, MutationUpdateTaskArgs, QueryTasksArgs } from "../config/schema.interface";
 import { pipeP } from "../utils/functional-utils";
 import { convertToResolverPipes, GQLResolver, isAuthenticated, makeResolver, resolverPipe } from "../utils/general-utils";
 
@@ -111,7 +111,7 @@ const removeTask: GQLResolver<MutationRemoveTaskArgs> = async ({
     return payload.count !== 0;
 };
 
-const orderTasks: GQLResolver<MutationOrderTask> = async ({
+const orderTasksById: GQLResolver<MutationOrderTasksById> = async ({
     args: { currentOrder, newOrder },
     context: { prisma, user }
 }) => {
@@ -153,7 +153,7 @@ const taskResolvers = convertToResolverPipes({
         createTask: pipeP([isAuthenticated, createTask]),
         updateTask: pipeP([isAuthenticated, updateTask]),
         removeTask: pipeP([isAuthenticated, removeTask]),
-        orderTasks: pipeP([isAuthenticated, orderTasks]),
+        orderTasks: pipeP([isAuthenticated, orderTasksById]),
     },
     Task: {
         checklist: resolverPipe(checklist),
