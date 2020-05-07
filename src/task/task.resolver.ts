@@ -28,7 +28,8 @@ const createTask: GQLResolver<MutationCreateTaskArgs> = async ({
     // and create the new record with the new orderNum
     let [lastTask] = await prisma.task.findMany({
         where: {
-            ownerId: user.id
+            ownerId: user.id,
+            categoryId
         },
         first: 1,
         orderBy: { orderNum: 'desc' }
@@ -112,7 +113,7 @@ const removeTask: GQLResolver<MutationRemoveTaskArgs> = async ({
 };
 
 const orderTasksById: GQLResolver<MutationOrderTasksById> = async ({
-    args: { currentOrder, newOrder },
+    args: { categoryId, currentOrder, newOrder },
     context: { prisma, user }
 }) => {
     if (currentOrder.length !== newOrder.length)
@@ -124,7 +125,13 @@ const orderTasksById: GQLResolver<MutationOrderTasksById> = async ({
 
         if (currentTaskId !== newTaskId) {
             updateQueries.push(
-                prisma.task.updateMany({ where: { id: newTaskId, ownerId: user.id }, data: { orderNum: +index } })
+                prisma.task.updateMany({
+                    where: {
+                        id: newTaskId,
+                        ownerId: user.id,
+                        categoryId
+                    }, data: { orderNum: +index }
+                })
             );
         }
     }

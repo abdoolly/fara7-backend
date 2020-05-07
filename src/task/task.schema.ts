@@ -28,7 +28,7 @@ enum Status {
 }
 
 type Task {
-    id: ID!
+    id: Int!
     title: String!
     checklistId: Int!
     categoryId:  Int!
@@ -63,6 +63,6 @@ extend type Mutation {
     createTask(data: CreateTaskInput!): Task!
     updateTask(taskId: Int!, data: UpdateTaskInput!): Task!
     removeTask(taskId: Int!): Boolean!
-    orderTasksById(currentOrder: [Int!]!, newOrder: [Int!]!): [OrderTasksUpdateReturn!]!
+    orderTasksById(categoryId: Int!, currentOrder: [Int!]!, newOrder: [Int!]!): [OrderTasksUpdateReturn!]!
 }
 `;

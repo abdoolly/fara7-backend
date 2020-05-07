@@ -207,6 +207,7 @@ export type MutationRemoveTaskArgs = {
 };
 
 export type MutationOrderTasksById = {
+    categoryId: Scalars["Int"];
     currentOrder: Array<Scalars["Int"]>;
     newOrder: Array<Scalars["Int"]>;
 };
