@@ -18,7 +18,7 @@ input UpdateCategoryInput {
 
 const typesOnly = `
 type Category {
-    id: ID!
+    id: Int!
     title: String!
     en_title: String
     ar_title: String

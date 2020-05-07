@@ -16,7 +16,7 @@ input UpdateCheclistInput {
 
 const typesOnly = `
 type Checklist {
-    id: ID!
+    id: Int!
     title: String!
     en_title: String
     ar_title: String
