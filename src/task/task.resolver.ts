@@ -6,9 +6,10 @@ import { convertToResolverPipes, GQLResolver, isAuthenticated, makeResolver, res
 
 const tasks: GQLResolver<QueryTasksArgs> = ({
     args: { title_contain, categoryId, checklistId } = {},
-    context: { prisma }
+    context: { prisma, user }
 }) => prisma.task.findMany({
     where: {
+        ownerId: user.id,
         categoryId,
         checklistId,
         ...(title_contain ? {
