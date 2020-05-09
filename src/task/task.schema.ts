@@ -38,6 +38,7 @@ type Task {
     owner: User!
     cost: Float
     dueDate: DateTime @date
+    overDue: Boolean
     status: Status
     done: Boolean!
     note: String

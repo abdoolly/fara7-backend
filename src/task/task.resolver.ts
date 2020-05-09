@@ -3,6 +3,8 @@ import * as _ from 'ramda';
 import { MutationCreateTaskArgs, MutationOrderTasksById, MutationRemoveTaskArgs, MutationUpdateTaskArgs, QueryTasksArgs } from "../config/schema.interface";
 import { pipeP } from "../utils/functional-utils";
 import { convertToResolverPipes, GQLResolver, isAuthenticated, makeResolver, resolverPipe } from "../utils/general-utils";
+import { Category } from "@prisma/client";
+import moment from "moment";
 
 const tasks: GQLResolver<QueryTasksArgs> = ({
     args: { title_contain, categoryId, checklistId } = {},
@@ -176,6 +178,10 @@ const taskUnDone: GQLResolver<any> = async ({
 const checklist: GQLResolver<any> = makeResolver('task', 'checklist');
 const category: GQLResolver<any> = makeResolver('task', 'category');
 const owner: GQLResolver<any> = makeResolver('task', 'owner');
+const overDue: GQLResolver<any> = ({
+    root
+}) => new Date(root.dueDate) < new Date();
+
 
 /**
  * @description resolving the done property using the status
@@ -203,6 +209,7 @@ const taskResolvers = convertToResolverPipes({
         category: resolverPipe(category),
         owner: resolverPipe(owner),
         done: resolverPipe(done),
+        overDue: resolverPipe(overDue),
     }
 });
 
