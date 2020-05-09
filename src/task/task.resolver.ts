@@ -140,6 +140,39 @@ const orderTasksById: GQLResolver<MutationOrderTasksById> = async ({
     return await Promise.all(updateQueries);
 };
 
+const taskDone: GQLResolver<any> = async ({
+    args: { taskId },
+    context: { prisma, user }
+}) => {
+    const result = await prisma.task.updateMany({
+        where: {
+            ownerId: user.id,
+            id: taskId
+        },
+        data: {
+            status: 'done'
+        }
+    });
+    return result.count;
+};
+
+const taskUnDone: GQLResolver<any> = async ({
+    args: { taskId },
+    context: { prisma, user }
+}) => {
+    const result = await prisma.task.updateMany({
+        where: {
+            ownerId: user.id,
+            id: taskId
+        },
+        data: {
+            status: 'pending'
+        }
+    });
+
+    return result.count;
+};
+
 const checklist: GQLResolver<any> = makeResolver('task', 'checklist');
 const category: GQLResolver<any> = makeResolver('task', 'category');
 const owner: GQLResolver<any> = makeResolver('task', 'owner');
@@ -162,6 +195,8 @@ const taskResolvers = convertToResolverPipes({
         updateTask: pipeP([isAuthenticated, updateTask]),
         removeTask: pipeP([isAuthenticated, removeTask]),
         orderTasksById: pipeP([isAuthenticated, orderTasksById]),
+        taskDone: pipeP([isAuthenticated, taskDone]),
+        taskUnDone: pipeP([isAuthenticated, taskUnDone]),
     },
     Task: {
         checklist: resolverPipe(checklist),

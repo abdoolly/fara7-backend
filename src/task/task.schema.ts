@@ -64,5 +64,7 @@ extend type Mutation {
     updateTask(taskId: Int!, data: UpdateTaskInput!): Task!
     removeTask(taskId: Int!): Boolean!
     orderTasksById(categoryId: Int!, currentOrder: [Int!]!, newOrder: [Int!]!): [OrderTasksUpdateReturn!]!
+    taskDone(taskId: Int!): Int!
+    taskUnDone(taskId: Int!): Int!
 }
 `;
