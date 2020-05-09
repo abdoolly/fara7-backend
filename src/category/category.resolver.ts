@@ -1,7 +1,8 @@
 import { UserInputError } from "apollo-server";
 import * as _ from 'ramda';
 import { MutationCreateCategoryArgs, MutationCreateManyCategoriesArgs, MutationUpdateCategoryArgs, QueryCategoriesArgs } from "../config/schema.interface";
-import { convertToResolverPipes, GQLResolver, makeResolver, resolverPipe } from "../utils/general-utils";
+import { convertToResolverPipes, GQLResolver, makeResolver, resolverPipe, isAuthenticated } from "../utils/general-utils";
+import { pipeP } from "../utils/functional-utils";
 
 const categories: GQLResolver<QueryCategoriesArgs> = ({
     args: { ownerId, checklistId },
@@ -69,7 +70,18 @@ const updateCategory: GQLResolver<MutationUpdateCategoryArgs> = async ({
     return category;
 };
 
-const tasks: GQLResolver<any> = makeResolver('category', 'tasks');
+const tasks: GQLResolver<any> = ({
+    root,
+    context: { prisma, user }
+}) => {
+    return prisma.task.findMany({
+        where: {
+            ownerId: user.id,
+            categoryId: root.id,
+        }
+    });
+};
+
 const checklist: GQLResolver<any> = makeResolver('category', 'checklist');
 const owner: GQLResolver<any> = makeResolver('category', 'owner');
 
@@ -83,7 +95,7 @@ const categoryResolvers = convertToResolverPipes({
         updateCategory,
     },
     Category: {
-        tasks: resolverPipe(tasks), // user in this case should be authenticated
+        tasks: resolverPipe(pipeP([isAuthenticated, tasks])),
         checklist: resolverPipe(checklist),
         owner: resolverPipe(owner),
     }
