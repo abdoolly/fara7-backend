@@ -9,7 +9,10 @@ export class DateFormatDirective extends SchemaDirectiveVisitor {
         const { format } = this.args;
         field.resolve = async function (...args) {
             const date = await resolve.apply(this, args);
-            return moment(date).format(format);
+            if (date)
+                return moment(date).format(format);
+
+            return null;
         };
 
         // The formatted Date becomes a String, so the field type must change:
