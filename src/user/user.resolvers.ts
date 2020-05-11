@@ -1,19 +1,11 @@
 import { AuthenticationError, UserInputError } from "apollo-server-express";
+import { isEmail, isNumberString } from 'class-validator';
 import * as _ from 'ramda';
 import { signJWT } from "../config/jwt";
-import {
-    convertToResolverPipes,
-    GQLResolver,
-    resolverPipe,
-    checkPhoneUnique,
-    checkEmailUnique,
-    makeResolver,
-    checkPhoneAndEmail
-} from "../utils/general-utils";
-import { QueryLoginArgs, MutationRegisterArgs, QueryValidateRegister } from "../config/schema.interface";
-import { isEmail, isNumberString } from 'class-validator';
-import { getIdentifierObject } from "./user.utils";
+import { MutationRegisterArgs, QueryLoginArgs, QueryValidateRegister } from "../config/schema.interface";
 import { pipeP } from "../utils/functional-utils";
+import { checkEmailUnique, checkPhoneAndEmail, checkPhoneUnique, convertToResolverPipes, GQLResolver, makeResolver, resolverPipe } from "../utils/general-utils";
+import { getIdentifierObject } from "./user.utils";
 
 const login: GQLResolver<QueryLoginArgs> = async ({
     args: { identifier, password },
@@ -66,7 +58,18 @@ const validateRegister: GQLResolver<QueryValidateRegister> = () => true;
 
 const checklists: GQLResolver<any> = makeResolver('user', 'checklist');
 const categories: GQLResolver<any> = makeResolver('user', 'categories');
-const tasks: GQLResolver<any> = makeResolver('user', 'tasks');
+
+const tasks: GQLResolver<any> = ({
+    root,
+    context: { prisma }
+}) => {
+    return prisma.task.findMany({
+        where: {
+            ownerId: root.id,
+        }
+    });
+};
+
 const collaboratedOn: GQLResolver<any> = makeResolver('user', 'collaboratedOn');
 
 const userResolvers = convertToResolverPipes({
