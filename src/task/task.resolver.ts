@@ -180,7 +180,7 @@ const category: GQLResolver<any> = makeResolver('task', 'category');
 const owner: GQLResolver<any> = makeResolver('task', 'owner');
 const overDue: GQLResolver<any> = ({
     root
-}) => root.dueDate ? new Date(root.dueDate) < new Date() : null;
+}) => root.dueDate ? new Date(root.dueDate) < new Date() : false;
 
 
 /**
